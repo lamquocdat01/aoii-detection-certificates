@@ -1,0 +1,21 @@
+The files under data/ are released under the Creative Commons Attribution 4.0
+International licence (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/
+
+Scope and provenance
+--------------------
+data/power/  are original measurements taken by the author on an NVIDIA Jetson Orin Nano
+             and are the author's own work.
+
+data/events.csv and data/frame_scores.* are DERIVED tables. Each row carries, for one
+video frame, a binary event indicator obtained from the ground-truth annotation of the
+source dataset and a scalar content score computed by the author's background-subtraction
+front end. No imagery, no pixel data and no annotation masks are redistributed here.
+
+The source videos and their original annotations remain under the licences of their own
+distributors and must be obtained from them:
+  CDnet 2014   DOI 10.1109/CVPRW.2014.126
+  LASIESTA     DOI 10.1016/j.cviu.2016.08.005
+  BMC          DOI 10.1007/978-3-642-37410-4_25
+
+Anyone redistributing the derived tables should confirm that this use is compatible with
+the terms of those distributors.
