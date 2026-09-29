@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Common loader / AoII engine for Topic 01 (TNET), Part B. seed = 42.
+"""Common loader / AoII engine. seed = 42.
 
 Slot model (theory_notes.md Sec. 1):
   * slot t = one video frame; slot duration = 1/30 s = 33.3 ms

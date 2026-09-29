@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Spike 3.2 (post-TNET reject, 29-09-2026): lagged AoII.  seed = 42.
+"""Lagged AoII (Lemma 1) and the transition-count bound: checks.  seed = 42.
 
-Uses Submission_TNET/code as a READ-ONLY library; writes only to
+Uses common.py as a READ-ONLY library; writes only to
 PostReject_20260929/results/.
 
 Definitions (padding convention: X_u = 0 for u < 0, consistent with the default
 belief Xhat = 0 before the first delivery):
   belief     Xhat_t = X_{sigma(t)},  sigma(t) = max{u <= t-d : s_u = 1}
-  AoII       A_t     = (A_{t-1}+1) 1{Xhat_t != X_t}          (as in the TNET paper)
+  AoII       A_t     = (A_{t-1}+1) 1{Xhat_t != X_t}          (symmetric AoII)
   lagged     Alag_t  = (Alag_{t-1}+1) 1{Xhat_t != X_{t-d}}   (reference = submitted frame)
 
 Checks
