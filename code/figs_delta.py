@@ -46,8 +46,8 @@ def fig_n_vs_N():
     ax.scatter(u[:, 0], u[:, 1], s=4 + 10 * np.log10(cnt), c="#3b6ea5", alpha=0.7, lw=0,
                label="measured runs (size ~ log count)")
     xx = np.arange(0, Ns.max() + 1)
-    ax.plot(xx[1:], xx[1:] * K + D - 1, "k-", lw=0.9, label=r"Thm 2: $NK+d-1$")
-    ax.plot(xx, (K - 1) + xx * (K - 1 + D), "k--", lw=0.7, label=r"any gap$\leq K$: $(K-1)+N(K-1+d)$")
+    ax.plot(xx[1:], xx[1:] * K + D - 1, "k-", lw=0.9, label=r"Thm. 1: $NK+d-1$")
+    ax.plot(xx, (K - 1) + xx * (K - 1 + D), "k--", lw=0.7, label=r"Prop. 1: $(K-1)+N(K-1+d)$")
     ax.set_xlabel(r"source transitions $N$ in $(s-d,t]$")
     ax.set_ylabel(r"mismatch run length $n$")
     ax.set_xlim(-0.3, min(Ns.max(), 8) + 0.3); ax.set_ylim(0, max(ns.max() + 3, 40))
