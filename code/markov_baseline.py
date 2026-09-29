@@ -195,6 +195,7 @@ def main():
     ax.set_title(f"price of the Markov assumption, A={FIG_A}, d={D}", fontsize=7)
     ax.legend(frameon=False, fontsize=5.5)
     fig.tight_layout()
+    (HERE.parent / "figures").mkdir(exist_ok=True)
     for ext in ("pdf", "png"):
         fig.savefig(HERE.parent / "figures" / f"figD3_price_of_assumption.{ext}", dpi=300)
 

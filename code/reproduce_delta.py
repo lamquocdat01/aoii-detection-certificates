@@ -2,7 +2,8 @@
 """Regenerate every number of the paper from the released data, in order, and compare the
 result key by key with expected/numbers_delta.json.  seed = 42.
 
-    python code/reproduce_delta.py            # full run (about 1-3 h on a laptop CPU)
+    python code/reproduce_delta.py            # full run (about 1 h on a laptop CPU)
+    python code/reproduce_delta.py --from markov_baseline.py   # resume at a step
 
 Exit code 0 only if every macro value matches.
 """
@@ -33,7 +34,9 @@ STEPS = [
 
 
 def main():
-    for s in STEPS:
+    # optional: --from <script> resumes a run that stopped at that step
+    start = sys.argv[sys.argv.index("--from") + 1] if "--from" in sys.argv else STEPS[0]
+    for s in STEPS[STEPS.index(start):]:
         t0 = time.time()
         print(f"== {s}", flush=True)
         r = subprocess.run([sys.executable, str(HERE / s)], cwd=ROOT)
