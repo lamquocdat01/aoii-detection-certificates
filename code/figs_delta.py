@@ -112,6 +112,28 @@ def fig_assumption():
         fig.savefig(FIG / f"figD3_price_of_assumption.{ext}", dpi=300)
 
 
+def fig_sojourn():
+    """Measured sojourn laws (events and silences) against geometric laws with the same
+    means: empirical CCDFs on log-log axes (existing data, no new experiment)."""
+    vids = C.load_videos()
+    Dl = np.array([dd for x in vids.values() for _, dd in x["ev"]])
+    Gl = np.concatenate([np.array(x["gaps"]) for x in vids.values() if x["gaps"]])
+    fig, ax = plt.subplots(figsize=(3.4, 2.3))
+    for arr, lab, col in ((Dl, "event durations", "#d95f02"), (Gl, "silences", "#1b9e77")):
+        v = np.sort(arr)
+        cc = 1.0 - np.arange(len(v)) / len(v)
+        ax.step(v, cc, where="post", c=col, lw=1.1, label=f"measured {lab} (n={len(v)})")
+        m = arr.mean(); xs = np.unique(np.geomspace(1, v.max(), 200).astype(int))
+        ax.plot(xs, (1 - 1 / m) ** (xs - 1), ls=":", c=col, lw=0.9, label=f"geometric, same mean ({m:.1f})")
+    ax.set_xscale("log"); ax.set_yscale("log"); ax.set_ylim(1e-4, 1.2)
+    ax.set_xlabel("sojourn length (slots)"); ax.set_ylabel(r"$\Pr[\mathrm{sojourn}\geq x]$")
+    ax.legend(frameon=False, fontsize=5.5, loc="lower left")
+    ax.set_title("measured sojourn laws are far from geometric", fontsize=7)
+    fig.tight_layout()
+    for ext in ("pdf", "png"):
+        fig.savefig(FIG / f"figD0_sojourn.{ext}", dpi=300)
+
+
 def graphical_abstract():
     """Two panels: the certificate (n vs N) and the out-of-sample optimisation (TEST)."""
     import json as _j
@@ -152,3 +174,6 @@ if __name__ == "__main__":
     C.jdump(info, HERE.parent / "results" / "figD1_n_vs_N.json")
     if (HERE.parent / "results" / "summary_delta.json").exists():
         fig_price()
+    if (HERE.parent / "results" / "markov_baseline.json").exists():
+        fig_assumption()
+    fig_sojourn()
