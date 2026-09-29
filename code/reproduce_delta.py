@@ -16,6 +16,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 STEPS = [
+    "aoii_replay.py",          # trace replay of the policy zoo -> results/aoii_scores.json (gate thresholds)
     "energy_frontier.py",      # measured power model  -> results/energy_frontier.json
     "t2star_verify.py",        # Theorem 1: exhaustive, attainment, Monte Carlo, Cor. 1
     "t2_refined_corpus.py",    # Theorem 1 on the workload

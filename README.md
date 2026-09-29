@@ -16,6 +16,7 @@ Links"*. Seed 42 throughout; all results are deterministic.
 | Markov-optimal baseline (raw and budget-corrected) | `markov_baseline.py` | `results/markov_baseline.json` |
 | Remark 1 (certificate in distribution) | `cor22_tail.py` | `results/cor22_tail.json` |
 | Lemma 2 / supplementary monotonicity checks | `prop34_check.py` | `results/prop34_check.json` |
+| Trace replay of the policy zoo (gate thresholds) | `aoii_replay.py` | `results/aoii_scores.json` |
 | Measured power model | `energy_frontier.py` | `results/energy_frontier.json` |
 | Figures | `figs_delta.py` | `figures/` |
 | Every number printed in the paper | `make_numbers_delta.py` | `results/numbers_delta.json` |
