@@ -85,11 +85,65 @@ def fig_price():
     ax.set_ylabel("mean AoII (slots)")
     ax.plot([], [], "ks:", ms=2.5, lw=0.7, label="periodic (best K)")
     ax.plot([], [], "k^--", ms=2.5, lw=0.7, label="capped gate")
-    ax.legend(frameon=False, fontsize=5.5, loc="upper right")
+    ax.legend(frameon=False, fontsize=5.5, loc="upper left", ncol=2)
     ax.set_title(f"price of the certificate, d={D}; thin = uncapped", fontsize=7)
     fig.tight_layout()
     for ext in ("pdf", "png"):
         fig.savefig(FIG / f"figD2_price_of_certificate.{ext}", dpi=300)
+
+
+def fig_assumption():
+    """Re-draw figD3 from markov_baseline.json in the paper's font (no recomputation)."""
+    import json as _j
+    F = _j.load(open(HERE.parent / "results" / "markov_baseline.json", encoding="utf-8"))["fig"]
+    fig, ax = plt.subplots(figsize=(3.4, 2.4))
+    x = [f["abar"] for f in F]
+    for key, lab, sty in (("periodic", "periodic (best K)", "s:"),
+                          ("markov_bc", "Markov-optimal (budget-corrected)", "d-."),
+                          ("gate", "capped content gate", "^--"), ("hist", "history-threshold", "o-")):
+        ax.plot(x, [f.get(key) if f.get(key) is not None else np.nan for f in F], sty, ms=3, lw=1, label=lab)
+    ax.set_xlabel(r"activation budget $\bar a$"); ax.set_ylabel("mean AoII, held-out (slots)")
+    ax.set_yscale("log")
+    ax.set_title(f"price of the Markov assumption, A=15, d={D}", fontsize=7)
+    ax.legend(frameon=False, fontsize=5.5, loc="upper right", bbox_to_anchor=(1.0, 1.0))
+    ax.set_ylim(top=0.32)
+    fig.tight_layout()
+    for ext in ("pdf", "png"):
+        fig.savefig(FIG / f"figD3_price_of_assumption.{ext}", dpi=300)
+
+
+def graphical_abstract():
+    """Two panels: the certificate (n vs N) and the out-of-sample optimisation (TEST)."""
+    import json as _j
+    mk = _j.load(open(HERE.parent / "results" / "markov_baseline.json", encoding="utf-8"))["fig"]
+    vids = C.load_videos()
+    P = []
+    for x in vids.values():
+        g = x["g"]
+        ctr = np.concatenate(([0], np.cumsum(transitions(g))))
+        for phi in range(K):
+            s = C.periodic(len(g), K, phi)
+            st, L = runs(C.belief(s, g, D) != g)
+            N = ctr[st + L] - ctr[np.maximum(st - D + 1, 0)]
+            P.append(np.stack([N, L], 1))
+    P = np.concatenate(P)
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(6.8, 2.3))
+    u, cnt = np.unique(P, axis=0, return_counts=True)
+    a1.scatter(u[:, 0], u[:, 1], s=4 + 10 * np.log10(cnt), c="#3b6ea5", alpha=0.7, lw=0)
+    xx = np.arange(1, P[:, 0].max() + 1)
+    a1.plot(xx, xx * K + D - 1, "k-", lw=1)
+    a1.set_xlabel("source transitions N in the run"); a1.set_ylabel("run of incorrect belief")
+    a1.set_title(r"certificate: $n\leq NK+d-1$ (tight)", fontsize=8)
+    x = [f["abar"] for f in mk]
+    for key, lab, sty in (("periodic", "periodic", "s:"), ("markov_bc", "Markov-optimal", "d-."),
+                          ("gate", "capped gate", "^--"), ("hist", "history policy", "o-")):
+        a2.plot(x, [f.get(key) if f.get(key) is not None else np.nan for f in mk], sty, ms=3, lw=1, label=lab)
+    a2.set_yscale("log"); a2.set_xlabel(r"activation budget $\bar a$"); a2.set_ylabel("mean AoII, held-out")
+    a2.set_title("optimal sampling under the certificate", fontsize=8)
+    a2.legend(frameon=False, fontsize=6)
+    fig.tight_layout()
+    for ext in ("pdf", "png"):
+        fig.savefig(FIG / f"graphical_abstract_delta.{ext}", dpi=300)
 
 
 if __name__ == "__main__":
