@@ -50,6 +50,20 @@ The source videos are not redistributed. `frame_scores` carries only a binary
 ground-truth event indicator and a scalar content score per frame; obtain the imagery and
 the original annotations from the distributors listed above. See `LICENSE-DATA`.
 
+## Data provenance & licenses
+
+Original frames/videos are not redistributed; only the derived per-frame tables are.
+
+* **CDnet 2014** [37] (Wang et al., DOI 10.1109/CVPRW.2014.126; www.changedetection.net):
+  no licence is published; the distributor asks users to acknowledge the website and cite [37].
+* **LASIESTA** [38] (Cuevas et al., DOI 10.1016/j.cviu.2016.08.005): CC BY-SA 4.0; the rows
+  with `dataset == LASIESTA` are shared under CC BY-SA 4.0.
+* **BMC** [39] (Vacavant et al., DOI 10.1007/978-3-642-37410-4_25): no licence is published;
+  the distributor asks users to cite [39].
+
+Derived tables provided for reproducibility; contact authors if redistribution is restricted.
+Reference numbers [37]–[39] are those of the paper.
+
 ## Measurement protocol (update cost and delay)
 
 * **Device** NVIDIA Jetson Orin Nano 8 GB, JetPack default power mode.
@@ -79,8 +93,8 @@ run takes 1–3 hours on a laptop CPU. Results land in `results/` and figures in
 
 ## Licence
 
-Code: MIT (`LICENSE`). Data: CC BY 4.0 (`LICENSE-DATA`), with the provenance and scope
-limits stated there.
+Code: MIT (`LICENSE`). Data: CC BY 4.0, except the LASIESTA-derived rows (CC BY-SA 4.0);
+see `LICENSE-DATA` for the provenance and scope limits.
 
 ## Citation
 
